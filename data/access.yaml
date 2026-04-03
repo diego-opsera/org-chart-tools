@@ -1,0 +1,284 @@
+# Org Chart Access Configuration
+# Version for forward compatibility with future schema changes
+version: "1.0"
+
+# Tool definitions with role hierarchies (ordered least → most privileged).
+# color: used for badge background in the org chart.
+tools:
+  jira:
+    display_name: "Jira"
+    color: "#0052CC"
+    badge_threshold: 2   # org_admin and above (not project/board admins)
+    roles:
+      - id: member
+        label: "Member"
+      - id: project_admin
+        label: "Project Admin"
+      - id: org_admin
+        label: "Org Admin"
+
+  github:
+    display_name: "GitHub"
+    color: "#24292E"
+    badge_threshold: 2   # org_owner only (not per-repo maintainers)
+    roles:
+      - id: member
+        label: "Member"
+      - id: maintainer
+        label: "Maintainer"
+      - id: org_owner
+        label: "Org Owner"
+
+  salesforce:
+    display_name: "Salesforce"
+    color: "#00A1E0"
+    badge_threshold: 1   # admin and above
+    roles:
+      - id: user
+        label: "User"
+      - id: admin
+        label: "Admin"
+      - id: system_admin
+        label: "System Admin"
+
+  okta:
+    display_name: "Okta"
+    color: "#007DC1"
+    badge_threshold: 1   # admin and above
+    roles:
+      - id: user
+        label: "User"
+      - id: admin
+        label: "Admin"
+      - id: super_admin
+        label: "Super Admin"
+
+  databricks:
+    display_name: "Databricks"
+    color: "#E87722"
+    badge_threshold: 1   # workspace_admin and above
+    roles:
+      - id: user
+        label: "User"
+      - id: workspace_admin
+        label: "Workspace Admin"
+      - id: account_admin
+        label: "Account Admin"
+
+  aws:
+    display_name: "AWS"
+    color: "#FF9900"
+    badge_threshold: 2   # admin only (not developers or power users)
+    roles:
+      - id: developer
+        label: "Developer"
+      - id: power_user
+        label: "Power User"
+      - id: admin
+        label: "Admin"
+
+  chorus:
+    display_name: "Chorus"
+    color: "#7C4DFF"
+    badge_threshold: 1   # admin and above
+    roles:
+      - id: user
+        label: "User"
+      - id: admin
+        label: "Admin"
+      - id: super_admin
+        label: "Super Admin"
+
+  slack:
+    display_name: "Slack"
+    color: "#4A154B"
+    badge_threshold: 1   # admin and above
+    roles:
+      - id: member
+        label: "Member"
+      - id: admin
+        label: "Admin"
+      - id: workspace_owner
+        label: "Workspace Owner"
+
+  google:
+    display_name: "Google"
+    color: "#4285F4"
+    badge_threshold: 1   # admin and above
+    roles:
+      - id: user
+        label: "User"
+      - id: admin
+        label: "Admin"
+      - id: super_admin
+        label: "Super Admin"
+
+  adp:
+    display_name: "ADP"
+    color: "#D40000"
+    badge_threshold: 1   # admin and above
+    roles:
+      - id: user
+        label: "User"
+      - id: admin
+        label: "Admin"
+      - id: super_admin
+        label: "Super Admin"
+
+# Per-person access grants.
+# Key must exactly match the NAME column in roster.xlsx ("Last, First" format).
+# source: "manual" for hand-maintained entries.
+#         Future API integrations will write "jira_api", "github_api", etc.
+# scope:  Optional free-form string for resource-level specificity.
+#         Examples: "project:PLATFORM", "account:prod", "org:acme-corp"
+#         null means org-wide / global.
+access:
+  "Chivukula, Ravi Kumar":
+    - tool: github
+      role: org_owner
+      scope: null
+      source: manual
+    - tool: okta
+      role: super_admin
+      scope: null
+      source: manual
+    - tool: aws
+      role: admin
+      scope: null
+      source: manual
+
+  "Rentachintala, Chandra Sekhar":
+    - tool: jira
+      role: org_admin
+      scope: null
+      source: manual
+    - tool: github
+      role: org_owner
+      scope: null
+      source: manual
+    - tool: okta
+      role: admin
+      scope: null
+      source: manual
+
+  "Sengelnathan, Peter":
+    - tool: databricks
+      role: account_admin
+      scope: null
+      source: manual
+    - tool: aws
+      role: power_user
+      scope: null
+      source: manual
+
+  "Vasudevan, Vasanthavishnu":
+    - tool: jira
+      role: org_admin
+      scope: null
+      source: manual
+    - tool: github
+      role: org_owner
+      scope: null
+      source: manual
+
+  "Bharatham, Sreekanth":
+    - tool: jira
+      role: project_admin
+      scope: "project:PLATFORM"
+      source: manual
+    - tool: github
+      role: maintainer
+      scope: null
+      source: manual
+
+  "Lance, Christian":
+    - tool: aws
+      role: admin
+      scope: "account:prod"
+      source: manual
+    - tool: databricks
+      role: workspace_admin
+      scope: null
+      source: manual
+    - tool: jira
+      role: project_admin
+      scope: "project:PLATFORM"
+      source: manual
+
+  "Forbis, Christopher":
+    - tool: aws
+      role: power_user
+      scope: null
+      source: manual
+
+  "Singh, Nishu":
+    - tool: jira
+      role: project_admin
+      scope: "project:INFRA"
+      source: manual
+
+  "Srivastava, Piyush":
+    - tool: databricks
+      role: workspace_admin
+      scope: null
+      source: manual
+    - tool: aws
+      role: developer
+      scope: null
+      source: manual
+
+  "Villafuerte-Duffy, Diego":
+    - tool: github
+      role: maintainer
+      scope: null
+      source: manual
+    - tool: jira
+      role: project_admin
+      scope: "project:TOOLS"
+      source: manual
+
+  "Hatter, Patricia":
+    - tool: chorus
+      role: super_admin
+      scope: null
+      source: manual
+    - tool: slack
+      role: workspace_owner
+      scope: null
+      source: manual
+    - tool: salesforce
+      role: system_admin
+      scope: null
+      source: manual
+
+  "Flechet, Matt":
+    - tool: chorus
+      role: admin
+      scope: null
+      source: manual
+    - tool: slack
+      role: admin
+      scope: null
+      source: manual
+    - tool: salesforce
+      role: admin
+      scope: null
+      source: manual
+
+
+  "Syed, Yusra":
+    - tool: slack
+      role: admin
+      scope: null
+      source: manual
+
+  "Corpuz, Rhodora":
+    - tool: google
+      role: admin
+      scope: null
+      source: manual
+    - tool: adp
+      role: admin
+      scope: null
+      source: manual
+
